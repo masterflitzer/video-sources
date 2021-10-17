@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+        <link href="./css/bootstrap-icons.css" rel="stylesheet">
+        <link href="./css/style.css" rel="stylesheet">
+        <title>Video Sources</title>
+    </head>
+    <body class="bg-dark text-light">
+        <div class="container-fluid px-5">
+            <h1 class="display-1 my-3">Video Sources</h1>
+            <button type="button" class="btn btn-primary" onclick="getValueFromB64ById('json')">
+                <span>Copy JSON</span>
+                <i class="icon bi bi-clipboard-data ms-1"></i>
+            </button>
+
+            <main>
+
+            </main>
+
+            <input disabled id="json" type="hidden" value="${btoa(json)}">
+            <script src="./js/bootstrap.bundle.min.js"></script>
+            <script src="./js/script.js"></script>
+        </div>
+    </body>
+</html>

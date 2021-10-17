@@ -1,4 +1,14 @@
 {
+    "name": "video-sources",
+    "version": "1.0.0",
+    "description": "Display video sources of a website",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Masterflitzer/video-sources.git"
+    },
+    "author": "Masterflitzer",
+    "license": "MIT",
+    "homepage": "https://github.com/Masterflitzer/video-sources#readme",
     "devDependencies": {
         "webextension-polyfill": "^0.8.0"
     }
