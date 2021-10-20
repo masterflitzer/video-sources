@@ -1,12 +1,12 @@
 "use strict";
 
-const videos = document.getElementsByTagName("video");
-const json = getData(videos);
-navigator.clipboard.writeText(json);
-alert(json);
+chrome.runtime.sendMessage({
+    type: "res",
+    payload: main(document.getElementsByTagName("video")),
+});
 
-function getData(videos) {
-    if (typeof videos === undefined || videos === null) {
+function main(videos) {
+    if (typeof videos === "undefined" || videos === null) {
         return null;
     } else {
         let results = [];
@@ -18,7 +18,7 @@ function getData(videos) {
             results.push({
                 src: [{}, {}],
                 srcMedia: [{}, {}, {}],
-                childs: [[{}, {}]],
+                childs: [],
             });
 
             for (let j = 0; j < namesSrc.length; j++) {
@@ -31,7 +31,7 @@ function getData(videos) {
             let sources = video.getElementsByTagName("source");
             for (let j = 0; j < sources.length; j++) {
                 const source = sources[j];
-                if (j > 0) results[i].childs.push([{}, {}]);
+                /*if (j > 0)*/ results[i].childs.push([{}, {}]);
                 for (let k = 0; k < namesSrc.length; k++) {
                     const name = namesSrc[k];
                     const value = source.getAttribute(name);

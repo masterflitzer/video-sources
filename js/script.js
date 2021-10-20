@@ -1,34 +1,56 @@
 "use strict";
 
-function copyFromB64ById(id) {
-    let element = document.getElementById(id);
-    if (!element) {
-        return false;
+chrome.runtime.sendMessage({ type: "req" }, (response) => {
+    let data = response.payload;
+    document.getElementById("copy-json").addEventListener("click", () => {
+        copy(data);
+    });
+    generateDataOverview(data);
+});
+
+document.getElementById("copy-json").addEventListener("click", () => {
+    let icon = document.getElementById("clipboard-icon");
+    icon.setAttribute(
+        "class",
+        icon.attributes.class.value.replace(
+            "bi-clipboard-data",
+            "bi-clipboard-check"
+        )
+    );
+    setTimeout(() => {
+        icon.setAttribute(
+            "class",
+            icon.attributes.class.value.replace(
+                "bi-clipboard-check",
+                "bi-clipboard-data"
+            )
+        );
+        document.getElementById("copy-json").blur();
+    }, 5000);
+});
+
+function copy(value) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(value);
     } else {
-        let copy;
-        try {
-            if ("value" in element) {
-                copy = atob(element.value);
-            } else if ("textContent" in element) {
-                copy = atob(element.textContent);
-            } else {
-                copy = atob(element.innerText);
-            }
-        } catch (error) {
-            return false;
-        }
-        if (navigator.clipboard && window.isSecureContext) {
-            return navigator.clipboard.writeText(copy);
-        } else {
-            let hidden = document.createElement("input");
-            hidden.disabled = true;
-            hidden.type = "hidden";
-            hidden.value = copy;
-            document.appendChild(hidden);
-            hidden.select();
-            document.execCommand("copy");
-            document.removeChild(hidden);
-            return true;
-        }
+        let hidden = document.createElement("input");
+        hidden.disabled = true;
+        hidden.type = "hidden";
+        hidden.value = value;
+        document.appendChild(hidden);
+        hidden.select();
+        document.execCommand("copy");
+        document.removeChild(hidden);
     }
 }
+
+function generateDataOverview(data) {
+    let test = document.createElement("p");
+    test.textContent = data;
+    document.getElementById("placeholder").appendChild(test);
+}
+
+// chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+//     if (tabId === tab.id && changeInfo.status === "complete") {
+//     }
+// });

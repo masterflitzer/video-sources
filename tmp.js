@@ -1,5 +1,7 @@
 "use strict";
 
+// "activeTab", "clipboardWrite", "tabs";
+
 const videos = document.getElementsByTagName("video");
 const { data, json, html: content } = getData(videos);
 const html = generateHtml(content, json);

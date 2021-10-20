@@ -3,22 +3,27 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./css/bootstrap.min.css" rel="stylesheet">
-        <link href="./css/bootstrap-icons.css" rel="stylesheet">
+        <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link href="./css/style.css" rel="stylesheet">
         <title>Video Sources</title>
     </head>
     <body class="bg-dark text-light">
-        <div class="container-fluid px-5">
-            <h1 class="display-1 my-3">Video Sources</h1>
-            <button type="button" class="btn btn-primary" onclick="copyFromB64ById('json')">
-                <span>Copy JSON</span>
-                <i class="icon bi bi-clipboard-data ms-1"></i>
-            </button>
-
-            <input disabled id="json" type="hidden" value="SGVsbG8gV29ybGQh">
-            <script src="./js/bootstrap.bundle.min.js"></script>
-            <script src="./js/script.js"></script>
+        <div class="container-fluid p-5">
+            <div class="d-flex justify-content-start align-items-center mb-3">
+                <h1>Video Sources</h1>
+                <button type="button" id="copy-json" class="btn btn-primary ms-5">
+                    <span>Copy JSON</span>
+                    <i id="clipboard-icon" class="icon bi bi-clipboard-data ms-1"></i>
+                </button>
+            </div>
+            <div id="placeholder"></div>
+            <div id="hidden" class="d-none">
+                <!-- <script type="module" src="./node_modules/@popperjs/core/dist/esm/popper.js"></script> -->
+                <!-- <script type="module" src="./node_modules/bootstrap/dist/js/bootstrap.esm.min.js"></script> -->
+                <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="./js/script.js"></script>
+            </div>
         </div>
     </body>
 </html>

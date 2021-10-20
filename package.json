@@ -9,7 +9,10 @@
     "author": "Masterflitzer",
     "license": "MIT",
     "homepage": "https://github.com/Masterflitzer/video-sources#readme",
-    "devDependencies": {
+    "dependencies": {
+        "@popperjs/core": "^2.10.2",
+        "bootstrap": "^5.1.3",
+        "bootstrap-icons": "^1.6.0",
         "webextension-polyfill": "^0.8.0"
     }
 }
