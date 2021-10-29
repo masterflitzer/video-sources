@@ -12,39 +12,39 @@ function main(videos) {
         let results = [];
         for (let i = 0; i < videos.length; i++) {
             const video = videos[i];
-            const namesSrc = ["src", "data-src"];
-            const namesSrcMedia = ["src", "srcObject", "currentSrc"];
+            const keysMedia = ["src", "srcObject", "currentSrc"];
+            const keysParent = ["src", "data-src"];
 
             results.push({
-                src: [{}, {}],
-                srcMedia: [{}, {}, {}],
+                media: [{}, {}, {}],
+                parent: [{}, {}],
                 childs: [],
             });
 
-            for (let j = 0; j < namesSrc.length; j++) {
-                const name = namesSrc[j];
-                const value = video.getAttribute(name);
-                results[i].src[j].name = name;
-                results[i].src[j].value = value;
+            for (let j = 0; j < keysMedia.length; j++) {
+                const key = keysMedia[j];
+                const value = video[key];
+                results[i].media[j].key = key;
+                results[i].media[j].value = value;
+            }
+
+            for (let j = 0; j < keysParent.length; j++) {
+                const key = keysParent[j];
+                const value = video.getAttribute(key);
+                results[i].parent[j].key = key;
+                results[i].parent[j].value = value;
             }
 
             let sources = video.getElementsByTagName("source");
             for (let j = 0; j < sources.length; j++) {
                 const source = sources[j];
-                /*if (j > 0)*/ results[i].childs.push([{}, {}]);
-                for (let k = 0; k < namesSrc.length; k++) {
-                    const name = namesSrc[k];
-                    const value = source.getAttribute(name);
-                    results[i].childs[j][k].name = name;
+                results[i].childs.push([{}, {}]);
+                for (let k = 0; k < keysParent.length; k++) {
+                    const key = keysParent[k];
+                    const value = source.getAttribute(key);
+                    results[i].childs[j][k].key = key;
                     results[i].childs[j][k].value = value;
                 }
-            }
-
-            for (let j = 0; j < namesSrcMedia.length; j++) {
-                const name = namesSrcMedia[j];
-                const value = video[name];
-                results[i].srcMedia[j].name = name;
-                results[i].srcMedia[j].value = value;
             }
         }
         return JSON.stringify(results);
