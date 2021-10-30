@@ -2,7 +2,7 @@
 
 chrome.runtime.sendMessage({
     type: "res",
-    payload: main(document.getElementsByTagName("video")),
+    payload: main(document.querySelectorAll("video")),
 });
 
 function main(videos) {
@@ -35,7 +35,7 @@ function main(videos) {
                 results[i].parent[j].value = value;
             }
 
-            let sources = video.getElementsByTagName("source");
+            let sources = video.querySelectorAll("source");
             for (let j = 0; j < sources.length; j++) {
                 const source = sources[j];
                 results[i].childs.push([{}, {}]);
@@ -47,6 +47,6 @@ function main(videos) {
                 }
             }
         }
-        return JSON.stringify(results);
+        return results;
     }
 }

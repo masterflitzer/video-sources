@@ -3,43 +3,22 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="./css/bootstrap.min.css" rel="stylesheet">
+        <link href="./css/bootstrap-icons.css" rel="stylesheet">
         <link href="./css/style.css" rel="stylesheet">
         <title>Video Sources</title>
     </head>
     <body class="bg-dark text-light">
-        <div class="container-fluid p-5">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1>Video Sources</h1>
-                <button type="button" id="copy-json" class="btn btn-primary ms-1">
+        <div class="container-fluid px-5 py-3">
+            <div class="d-flex justify-content-between align-items-center my-4">
+                <h1 class="display-3">Video Sources</h1>
+                <button type="button" id="copy-json" class="btn btn-lg btn-primary ms-1">
                     <span>Copy JSON</span>
                     <i id="clipboard-icon" class="icon bi bi-clipboard-data ms-1"></i>
                 </button>
             </div>
-            <div id="placeholder">
-                <h3>Video Element</h3>
-                <h4>1</h4>
-                <h6>1</h6>
-                <h6>2</h6>
-                <h6>3</h6>
-                <label class="input-group flex-nowrap">
-                    <span class="input-group-text">test.src</span>
-                    <input id="src" class="form-control" type="text" placeholder="No source found!" value="" disabled>
-                    <button class="btn btn-primary">
-                        <span class="d-none d-md-inline-block">Copy</span>
-                        <i class="icon bi bi-clipboard ms-1"></i>
-                    </button>
-                    <a class="btn btn-primary" href="#" target="_blank" rel="noopener noreferrer">
-                        <span class="d-none d-md-inline-block">Open</span>
-                        <i class="icon bi bi-box-arrow-up-right ms-1"></i>
-                    </a>
-                </label>
-            </div>
+            <div id="placeholder"></div>
         </div>
-        <!-- <script type="module" src="./node_modules/@popperjs/core/dist/esm/popper.js"></script> -->
-        <!-- <script type="module" src="./node_modules/bootstrap/dist/js/bootstrap.esm.min.js"></script> -->
-        <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="./js/script.js"></script>
     </body>
 </html>

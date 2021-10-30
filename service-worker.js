@@ -1,7 +1,6 @@
 "use strict";
 
 // add to background in manifest.json: "type": "module"
-// import browser from "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js";
 
 let data;
 
@@ -25,20 +24,3 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
         console.error("received unknown message type");
     }
 });
-
-// chrome.action.onClicked.addListener((tab) => {
-//     chrome.tabs
-//         .query({
-//             active: true,
-//             currentWindow: true,
-//         })
-//         .then((tabs) => {
-//             chrome.tabs.sendMessage(
-//                 tabs[0].id,
-//                 { payload: "SW -> CS" },
-//                 (response) => {
-//                     console.log(`[SW] Response: ${response.payload}`);
-//                 }
-//             );
-//         });
-// });
