@@ -4,7 +4,8 @@
     "version": "1.0",
     "description": "Display video sources of a website",
     "background": {
-        "service_worker": "service-worker.js"
+        "service_worker": "service-worker.js",
+        "type": "module"
     },
     "action": {
         "default_title": "",

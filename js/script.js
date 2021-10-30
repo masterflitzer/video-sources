@@ -1,20 +1,23 @@
 "use strict";
-
 chrome.runtime.sendMessage({ type: "req" }, (response) => {
     let data = response.payload;
-    generateDataOverview(data);
-    document.querySelector("#copy-json").addEventListener("click", () => {
-        copy(JSON.stringify(data));
-    });
-    document.querySelectorAll(".copy-value").forEach((element) => {
-        element.addEventListener("click", (event) => {
-            let clicked = event.currentTarget;
-            if (event.type === "click") {
-                let target = clicked.parentNode.querySelector("input");
-                copy(target.value);
-            }
+    if (data === undefined || data.length === 0) {
+        alert("No video element could be found!");
+    } else {
+        generateDataOverview(data);
+        document.querySelector("#copy-json").addEventListener("click", () => {
+            copy(JSON.stringify(data));
         });
-    });
+        document.querySelectorAll(".copy-value").forEach((element) => {
+            element.addEventListener("click", (event) => {
+                let clicked = event.currentTarget;
+                if (event.type === "click") {
+                    let target = clicked.parentNode.querySelector("input");
+                    copy(target.value);
+                }
+            });
+        });
+    }
 });
 
 document.querySelector("#copy-json").addEventListener("click", () => {

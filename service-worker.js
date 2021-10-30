@@ -1,9 +1,5 @@
 "use strict";
 
-// add to background in manifest.json: "type": "module"
-
-let data;
-
 chrome.action.onClicked.addListener((tab) => {
     chrome.scripting.executeScript({
         target: { tabId: tab.id },
@@ -12,6 +8,7 @@ chrome.action.onClicked.addListener((tab) => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, response) => {
+    let data;
     if (request.type === "res") {
         data = request.payload;
         chrome.tabs.create({
