@@ -1,14 +1,7 @@
 "use strict";
 
-chrome.runtime.sendMessage({
-    type: "res",
-    payload: main(document.querySelectorAll("video")),
-});
-
-function main(videos) {
-    if (typeof videos === "undefined" || videos === null) {
-        return null;
-    } else {
+(() => {
+    const getJsonData = (videos) => {
         let results = [];
         for (let i = 0; i < videos.length; i++) {
             const video = videos[i];
@@ -48,5 +41,18 @@ function main(videos) {
             }
         }
         return results;
-    }
-}
+    };
+
+    const collect = (nodes) => {
+        if (typeof nodes !== "undefined" && nodes !== null) {
+            return getJsonData(nodes);
+        } else return null;
+    };
+
+    const nodeList = document.querySelectorAll("video");
+
+    browser.runtime.sendMessage({
+        type: "res",
+        payload: collect(nodeList),
+    });
+})();

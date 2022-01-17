@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./css/bootstrap.min.css" rel="stylesheet">
-        <link href="./css/bootstrap-icons.css" rel="stylesheet">
+        <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         <link href="./css/style.css" rel="stylesheet">
         <title>Video Sources</title>
     </head>
@@ -14,7 +14,7 @@
                 <h1 class="display-3">Video Sources</h1>
                 <button type="button" id="copy-json" class="btn btn-lg btn-primary ms-1">
                     <span>Copy JSON</span>
-                    <i id="clipboard-icon" class="icon bi bi-clipboard-data ms-1"></i>
+                    <i id="clipboard-icon" class="icon bi bi-clipboard-data ms-1" aria-hidden="true"></i>
                 </button>
             </div>
             <div id="placeholder"></div>

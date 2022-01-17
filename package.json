@@ -2,16 +2,18 @@
     "name": "video-sources",
     "version": "1.0.0",
     "description": "Display video sources of a website",
+    "keywords": [],
+    "author": "Masterflitzer <60170948+Masterflitzer@users.noreply.github.com>",
+    "license": "MIT",
+    "homepage": "https://github.com/masterflitzer/video-sources#readme",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Masterflitzer/video-sources.git"
+        "url": "https://github.com/masterflitzer/video-sources.git"
     },
-    "author": "Masterflitzer",
-    "license": "MIT",
-    "homepage": "https://github.com/Masterflitzer/video-sources#readme",
     "dependencies": {
         "@popperjs/core": "^2.10.2",
         "bootstrap": "^5.1.3",
-        "bootstrap-icons": "^1.6.0"
+        "bootstrap-icons": "^1.6.0",
+        "webextension-polyfill": "^0.8.0"
     }
 }

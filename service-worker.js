@@ -1,23 +1,26 @@
 "use strict";
 
-chrome.action.onClicked.addListener((tab) => {
-    chrome.scripting.executeScript({
+import "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js";
+
+browser.action.onClicked.addListener((tab) => {
+    browser.scripting.executeScript({
         target: { tabId: tab.id },
-        files: ["content-script.js"],
+        files: [
+            "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+            "./content-script.js",
+        ],
     });
 });
 
-chrome.runtime.onMessage.addListener((request, sender, response) => {
-    let data;
+browser.runtime.onMessage.addListener((request, sender) => {
     if (request.type === "res") {
-        data = request.payload;
-        chrome.tabs.create({
+        return browser.tabs.create({
             active: true,
-            url: chrome.runtime.getURL("index.html"),
+            url: browser.runtime.getURL("index.html"),
         });
     } else if (request.type === "req") {
-        response({ type: "res", payload: data });
+        return Promise.resolve({ type: "res", payload: request.payload });
     } else {
-        console.error("received unknown message type");
+        return Promise.reject({ reason: "unknown message type" });
     }
 });
