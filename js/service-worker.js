@@ -7,7 +7,7 @@ browser.action.onClicked.addListener((tab) => {
         target: { tabId: tab.id },
         files: [
             "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
-            "./content-script.js",
+            "./js/content-script.js",
         ],
     });
 });
