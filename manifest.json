@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Display video sources of a website",
     "background": {
-        "service_worker": "./js/service-worker.js",
+        "service_worker": "background.js",
         "type": "module"
     },
     "action": {

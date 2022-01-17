@@ -40,6 +40,7 @@
                 }
             }
         }
+        console.info(results);
         return results;
     };
 
