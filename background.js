@@ -21,50 +21,6 @@ const injectContentScripts = (tab, scripts) => {
         });
 };
 
-// const sendData = (tab, data) => {
-//     browser.tabs
-//         .sendMessage(tab.id, {
-//             type: "render",
-//             payload: data,
-//         })
-//         .then((response) => {
-//             console.info(response.message);
-//         })
-//         .catch((response) => {
-//             console.warn(response.message);
-//         });
-// };
-
-// const spawnResult = (data) => {
-//     // browser.tabs
-//     //     .create({
-//     //         active: true,
-//     //         url: browser.runtime.getURL("index.html"),
-//     //     })
-//     //     .then((tab) => {
-//     //         injectContentScripts(tab, ["./js/content-render.js"]);
-//     //         sendData(tab, data);
-//     //     })
-//     //     .catch((error) => {
-//     //         console.error(`An error occurred while creating the tab: ${error}`);
-//     //     });
-//     browser.runtime.openOptionsPage();
-//     browser.tabs
-//         .query({
-//             active: true,
-//             currentWindow: true,
-//         })
-//         .then((tab) => {
-//             tab = tab[0];
-//             console.log(tab);
-//             injectContentScripts(tab, ["./js/content-render.js"]);
-//             sendData(tab, data);
-//         })
-//         .catch((error) => {
-//             console.error(`An error occurred: ${error}`);
-//         });
-// };
-
 const savePayload = (payload) => {
     browser.storage.local
         .set({ data: payload })
@@ -88,7 +44,9 @@ browser.runtime.onMessage.addListener((message, sender) => {
             return Promise.reject({ message: "collect: payload is null" });
         } else {
             savePayload(message.payload);
-            browser.runtime.openOptionsPage();
+            browser.runtime.openOptionsPage().catch(() => {
+                console.log("implement alert message");
+            });
             return Promise.resolve({
                 message: "collect: sucessfully received payload",
             });

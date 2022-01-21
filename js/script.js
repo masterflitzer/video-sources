@@ -1,25 +1,78 @@
 "use strict";
 
-document.querySelector("#copy-json").addEventListener("click", () => {
-    let icon = document.querySelector("#clipboard-icon");
-    icon.setAttribute(
-        "class",
-        icon.attributes.class.value.replace(
-            "bi-clipboard-data",
-            "bi-clipboard-check"
-        )
-    );
-    setTimeout(() => {
+const colorScheme = () => {
+    const classLight = ["bg-light", "text-dark"];
+    const classDark = ["bg-dark", "text-light"];
+    const body = document.querySelector("body");
+    const setLightScheme = (e) => {
+        e.classList.add(...classLight);
+        e.classList.remove(...classDark);
+    };
+    const setDarkScheme = (e) => {
+        e.classList.add(...classDark);
+        e.classList.remove(...classLight);
+    };
+
+    if (window.matchMedia("(prefers-color-scheme: light)").matches)
+        setLightScheme(body);
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+        setDarkScheme(body);
+
+    window
+        .matchMedia("(prefers-color-scheme: light)")
+        .addEventListener("change", (event) => {
+            if (event.matches) setLightScheme(body);
+        });
+
+    window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .addEventListener("change", (event) => {
+            if (event.matches) setDarkScheme(body);
+        });
+};
+
+if (window.matchMedia) colorScheme();
+
+const animateOnClick = (selector, iconDefault, iconClick) => {
+    document.querySelector(selector).addEventListener("click", (event) => {
+        const icon = event.currentTarget.querySelector("i");
         icon.setAttribute(
             "class",
-            icon.attributes.class.value.replace(
-                "bi-clipboard-check",
-                "bi-clipboard-data"
-            )
+            icon.attributes.class.value.replace(iconDefault, iconClick)
         );
-        document.querySelector("#copy-json").blur();
-    }, 5000);
-});
+        setTimeout(() => {
+            icon.setAttribute(
+                "class",
+                icon.attributes.class.value.replace(iconClick, iconDefault)
+            );
+            event.currentTarget.blur();
+        }, 5000);
+    });
+};
+
+animateOnClick("#copy-json", "bi-clipboard-data", "bi-clipboard-check");
+animateOnClick("#clear-storage", "bi-x-circle", "bi-x-circle-fill");
+
+const renderingFailed = (error) => {
+    const getErrorMessage = (type) => {
+        switch (type) {
+            case "empty":
+                return "Storage is empty";
+            case "storage":
+                return "An error occurred while accessing local storage";
+            case "parent":
+                return "An error occurred while inserting rendered data";
+            default:
+                return "An unexpected error occurred";
+        }
+    };
+
+    const msg = error.message
+        ? `${getErrorMessage(error.type)}: ${error.message}`
+        : `${getErrorMessage(error.type)}!`;
+    console.warn(msg);
+    alert(msg);
+};
 
 const copy = (value) => {
     if (value !== "") {
@@ -43,17 +96,17 @@ const isHTMLNode = (object) => {
     try {
         return object instanceof Node || object instanceof HTMLElement;
     } catch (e) {
-        console.error(e);
+        console.warn(e);
         return false;
     }
 };
 
-const generateDivContainingTag = (tag, cssArray, text) => {
+const generateDivContainingTag = (tag, cssClassArray, text) => {
     let div = document.createElement("div");
     div.appendChild(
         (() => {
             let h = document.createElement(tag);
-            h.classList.add(cssArray);
+            h.classList.add(...cssClassArray);
             h.textContent = text;
             return h;
         })()
@@ -62,6 +115,7 @@ const generateDivContainingTag = (tag, cssArray, text) => {
 };
 
 const generateLabel = (key, value) => {
+    value = value ? value : null;
     let label = document.createElement("label");
     label.classList.add("input-group", "flex-nowrap", "my-2");
 
@@ -93,17 +147,18 @@ const generateLabel = (key, value) => {
             button.classList.add("copy-value", "btn", "btn-primary");
             button.appendChild(
                 (() => {
-                    let span = document.createElement("span");
-                    span.classList.add("d-none", "d-lg-inline-block");
-                    span.textContent = "Copy";
-                    return span;
+                    let i = document.createElement("i");
+                    i.classList.add("icon", "bi", "bi-clipboard", "me-1");
+                    i.setAttribute("aria-hidden", "true");
+                    return i;
                 })()
             );
             button.appendChild(
                 (() => {
-                    let i = document.createElement("i");
-                    i.classList.add("icon", "bi", "bi-clipboard", "ms-1");
-                    return i;
+                    let span = document.createElement("span");
+                    span.classList.add("d-none", "d-lg-inline-block");
+                    span.textContent = "Copy";
+                    return span;
                 })()
             );
             return button;
@@ -114,17 +169,13 @@ const generateLabel = (key, value) => {
         (() => {
             let a = document.createElement("a");
             a.classList.add("btn", "btn-primary");
-            a.href = value;
-            a.target = "_blank";
-            a.rel = "noopener noreferrer";
-            a.appendChild(
-                (() => {
-                    let span = document.createElement("span");
-                    span.classList.add("d-none", "d-lg-inline-block");
-                    span.textContent = "Open";
-                    return span;
-                })()
-            );
+            if (value) {
+                a.href = value;
+                a.target = "_blank";
+                a.rel = "noopener noreferrer";
+            } else {
+                a.href = "#";
+            }
             a.appendChild(
                 (() => {
                     let i = document.createElement("i");
@@ -132,9 +183,18 @@ const generateLabel = (key, value) => {
                         "icon",
                         "bi",
                         "bi-box-arrow-up-right",
-                        "ms-1"
+                        "me-1"
                     );
+                    i.setAttribute("aria-hidden", "true");
                     return i;
+                })()
+            );
+            a.appendChild(
+                (() => {
+                    let span = document.createElement("span");
+                    span.classList.add("d-none", "d-lg-inline-block");
+                    span.textContent = "Open";
+                    return span;
                 })()
             );
             return a;
@@ -150,7 +210,11 @@ const generateDataOverview = (data) => {
     for (let i = 0; i < data.length; i++) {
         const video = data[i];
 
-        let div = generateDivContainingTag("h3", ["my-4"], `${i + 1}. Video`);
+        let div = generateDivContainingTag(
+            "h3",
+            ["my-4", "p-1"],
+            `${i + 1}. Video`
+        );
 
         let divMedia = generateDivContainingTag(
             "h5",
@@ -204,8 +268,13 @@ const generateDataOverview = (data) => {
         div.appendChild(divChilds);
 
         if (isHTMLNode(html) && isHTMLNode(div)) {
+            for (const child of html.children) child.remove();
             html.appendChild(div);
-            html.remove();
+        } else {
+            renderingFailed({
+                type: "parent",
+                message: null,
+            });
         }
     }
 };
@@ -217,14 +286,16 @@ const main = (data) => {
         data === undefined ||
         typeof data === "undefined"
     ) {
-        console.error("render: payload is null");
+        renderingFailed({
+            type: "empty",
+            message: null,
+        });
         return;
     }
 
-    console.log(data);
     generateDataOverview(data);
 
-    document.querySelector("#copy-json").addEventListener("click", () => {
+    document.querySelector("#copy-json").addEventListener("click", (event) => {
         copy(JSON.stringify(data));
     });
 
@@ -245,8 +316,25 @@ browser.storage.local
     .then((storage) => {
         main(storage.data);
     })
-    .catch((error) => {
-        console.error(
-            `An error occurred while retrieving data from local storage: ${error}`
-        );
-    });
+    .catch((error) =>
+        renderingFailed({
+            type: "storage",
+            message: error,
+        })
+    );
+
+document.querySelector("#clear-storage").addEventListener("click", (event) => {
+    browser.storage.local
+        .remove("data")
+        .then(() => {
+            setTimeout(() => {
+                location.reload();
+            }, 200);
+        })
+        .catch((error) => {
+            renderingFailed({
+                type: "storage",
+                message: error,
+            });
+        });
+});

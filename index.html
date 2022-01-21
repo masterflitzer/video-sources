@@ -8,17 +8,25 @@
         <link href="./css/style.css" rel="stylesheet">
         <title>Video Sources</title>
     </head>
-    <body class="bg-dark text-light">
+    <body>
         <div class="container-fluid px-5 py-3">
             <div class="d-flex justify-content-between align-items-center my-4">
                 <h1 class="display-3">Video Sources</h1>
-                <button type="button" id="copy-json" class="btn btn-lg btn-primary ms-1">
-                    <span>Copy JSON</span>
-                    <i id="clipboard-icon" class="icon bi bi-clipboard-data ms-1" aria-hidden="true"></i>
-                </button>
+                <div>
+                    <button type="button" id="clear-storage" class="btn btn-lg btn-primary">
+                        <i class="icon bi bi-x-circle me-1" aria-hidden="true"></i>
+                        <span>Clear Storage</span>
+                    </button>
+                    <button type="button" id="copy-json" class="btn btn-lg btn-primary">
+                        <i class="icon bi bi-clipboard-data me-1" aria-hidden="true"></i>
+                        <span>Copy as JSON</span>
+                    </button>
+                </div>
             </div>
             <div id="placeholder">
-                <p>no data received yet</p>
+                <label class="input-group flex-nowrap my-2">
+                    <input type="text" class="form-control" placeholder="No data received yet!" disabled>
+                </label>
             </div>
         </div>
         <script type="module" src="./node_modules/webextension-polyfill/dist/browser-polyfill.min.js"></script>
