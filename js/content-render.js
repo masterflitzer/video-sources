@@ -1,26 +1,5 @@
 "use strict";
 
-document.querySelector("#copy-json").addEventListener("click", () => {
-    let icon = document.querySelector("#clipboard-icon");
-    icon.setAttribute(
-        "class",
-        icon.attributes.class.value.replace(
-            "bi-clipboard-data",
-            "bi-clipboard-check"
-        )
-    );
-    setTimeout(() => {
-        icon.setAttribute(
-            "class",
-            icon.attributes.class.value.replace(
-                "bi-clipboard-check",
-                "bi-clipboard-data"
-            )
-        );
-        document.querySelector("#copy-json").blur();
-    }, 5000);
-});
-
 const copy = (value) => {
     if (value !== "") {
         if (navigator.clipboard && window.isSecureContext) {
@@ -211,17 +190,6 @@ const generateDataOverview = (data) => {
 };
 
 const main = (data) => {
-    if (
-        data === null ||
-        data.length === 0 ||
-        data === undefined ||
-        typeof data === "undefined"
-    ) {
-        console.error("render: payload is null");
-        return;
-    }
-
-    console.log(data);
     generateDataOverview(data);
 
     document.querySelector("#copy-json").addEventListener("click", () => {
@@ -240,13 +208,52 @@ const main = (data) => {
     }
 };
 
-browser.storage.local
-    .get({ data: null })
-    .then((storage) => {
-        main(storage.data);
-    })
-    .catch((error) => {
-        console.error(
-            `An error occurred while retrieving data from local storage: ${error}`
-        );
-    });
+// browser.runtime
+//     .sendMessage({ type: "req" })
+//     .then((response) => {
+//         let data = response.payload;
+//         if (data === undefined || data.length === 0) {
+//             alert("No video element could be found!");
+//         } else {
+//             generateDataOverview(data);
+
+//             document
+//                 .querySelector("#copy-json")
+//                 .addEventListener("click", () => {
+//                     copy(JSON.stringify(data));
+//                 });
+
+//             const elements = document.querySelectorAll(".copy-value");
+//             for (const element of elements) {
+//                 element.addEventListener("click", (event) => {
+//                     let clicked = event.currentTarget;
+//                     if (event.type === "click") {
+//                         let target = clicked.parentNode.querySelector("input");
+//                         copy(target.value);
+//                     }
+//                 });
+//             }
+//         }
+//     })
+//     .catch((response) => {
+//         if (response.reason === "unknown") {
+//             console.warn("received unknown message type");
+//         } else if (response.reason === "empty") {
+//             console.warn("received empty payload");
+//         } else console.warn("unknown error");
+//     });
+
+// browser.runtime.onMessage.addListener((message, sender) => {
+//     if (message.type === "render") {
+//         if (message.payload === null) {
+//             return Promise.reject({ message: "render: payload was null" });
+//         } else {
+//             main(message.payload);
+//             return Promise.resolve({
+//                 message: "render: sucessfully received payload",
+//             });
+//         }
+//     } else {
+//         return Promise.reject({ message: "render: unknown request type" });
+//     }
+// });
