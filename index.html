@@ -1,35 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <link href="./css/style.css" rel="stylesheet">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="./node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="./css/style.css" rel="stylesheet" />
         <title>Video Sources</title>
     </head>
     <body>
-        <div class="container-fluid px-5 py-3">
-            <div class="d-flex justify-content-between align-items-center my-4">
-                <h1 class="display-3">Video Sources</h1>
-                <div>
-                    <button type="button" id="clear-storage" class="btn btn-lg btn-primary">
-                        <i class="icon bi bi-x-circle me-1" aria-hidden="true"></i>
-                        <span>Clear Storage</span>
+        <div class="container-fluid p-3 px-md-5">
+            <div class="d-flex flex-column align-items-center flex-xxl-row justify-content-lg-between gap-2">
+                <h1 class="display-3 text-nowrap m-0">Video Sources</h1>
+                <div class="d-flex flex-column flex-md-row gap-2">
+                    <button type="button" id="switch-theme"
+                            class="btn btn-lg btn-primary text-nowrap d-flex flex-nowrap gap-3">
+                        <i class="icon icon-hover bi bi-brightness-alt-high" aria-hidden="true"></i>
+                        <i class="icon icon-hovered bi bi-brightness-alt-high-fill" aria-hidden="true"></i>
+                        <span>Auto Mode</span>
                     </button>
-                    <button type="button" id="copy-json" class="btn btn-lg btn-primary">
-                        <i class="icon bi bi-clipboard-data me-1" aria-hidden="true"></i>
+                    <button type="button" id="copy-json"
+                            class="btn btn-lg btn-primary text-nowrap d-flex flex-nowrap gap-3">
+                        <i class="icon bi bi-clipboard-data" aria-hidden="true"></i>
                         <span>Copy as JSON</span>
+                    </button>
+                    <button type="button" id="clear-storage"
+                            class="btn btn-lg btn-primary text-nowrap d-flex flex-nowrap gap-3">
+                        <i class="icon icon-hover bi bi-x-circle" aria-hidden="true"></i>
+                        <i class="icon icon-hovered bi bi-x-circle-fill" aria-hidden="true"></i>
+                        <span>Clear Storage</span>
                     </button>
                 </div>
             </div>
-            <div id="placeholder">
-                <label class="input-group flex-nowrap my-2">
-                    <input type="text" class="form-control" placeholder="No data received yet!" disabled>
-                </label>
-            </div>
+            <div id="placeholder"></div>
         </div>
         <script type="module" src="./node_modules/webextension-polyfill/dist/browser-polyfill.min.js"></script>
-        <script type="module" src="./js/script.js"></script>
+        <script type="module" src="./js/rendering.js"></script>
+        <script type="module" src="./js/experience.js"></script>
     </body>
 </html>

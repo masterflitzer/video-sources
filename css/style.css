@@ -9,3 +9,21 @@
     width: 1em;
     height: 1em;
 }
+
+.icon-hover {
+    display: inline;
+}
+
+.icon-hover:hover,
+button:hover .icon-hover {
+    display: none;
+}
+
+.icon-hovered {
+    display: none;
+}
+
+.icon-hovered:hover,
+button:hover .icon-hovered {
+    display: inline;
+}
