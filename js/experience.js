@@ -1,6 +1,9 @@
 "use strict";
 
-for (const button of document.querySelectorAll("button, .btn")) {
+const $ = (selector, parent = document) => parent.querySelector(selector);
+const $$ = (selector, parent = document) => parent.querySelectorAll(selector);
+
+for (const button of $$("button, .btn")) {
     button.addEventListener("click", (event) => {
         const target = event.currentTarget;
         setTimeout(() => {
@@ -17,9 +20,9 @@ const manipulateCssClass = (e, remove, add) => {
 };
 
 const switchCssClassOnClick = (selector, iconDefault, iconClick) => {
-    document.querySelector(selector).addEventListener("click", (event) => {
+    $(selector).addEventListener("click", (event) => {
         const target = event.currentTarget;
-        const icon = target.querySelector("i");
+        const icon = $("i", target);
         manipulateCssClass(icon, iconDefault, iconClick);
         setTimeout(() => {
             manipulateCssClass(icon, iconClick, iconDefault);
@@ -46,7 +49,7 @@ const setColorScheme = async (value) => {
     else browser.storage.local.set({ color: value });
 };
 
-const body = document.querySelector("body");
+const body = $("body");
 const classLight = ["bg-light", "text-dark"];
 const classDark = ["bg-dark", "text-light"];
 
@@ -87,10 +90,10 @@ const colorScheme = (value) => {
 };
 
 const colorSchemeButton = async (init) => {
-    const target = document.querySelector("#switch-theme");
-    const span = target.querySelector("span");
-    const iconHover = target.querySelector("i.icon-hover");
-    const iconHovered = target.querySelector("i.icon-hovered");
+    const target = $("#switch-theme");
+    const span = $("span", target);
+    const iconHover = $("i.icon-hover", target);
+    const iconHovered = $("i.icon-hovered", target);
     const content = {
         text: ["Auto Mode", "Light Mode", "Dark Mode"],
         cssClass: ["bi-brightness-alt-high", "bi-sun", "bi-moon"],
@@ -129,7 +132,7 @@ const colorSchemeButton = async (init) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
     colorSchemeButton(true);
-    document.querySelector("#switch-theme").addEventListener("click", () => {
+    $("#switch-theme").addEventListener("click", () => {
         colorSchemeButton();
     });
 });

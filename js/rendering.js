@@ -1,5 +1,8 @@
 "use strict";
 
+const $ = (selector, parent = document) => parent.querySelector(selector);
+const $$ = (selector, parent = document) => parent.querySelectorAll(selector);
+
 const renderingFailed = (error) => {
     const getErrorMessage = (type) => {
         switch (type) {
@@ -129,7 +132,7 @@ const generateLabel = (key, value) => {
 };
 
 const generateDataOverview = (data) => {
-    let placeholder = document.querySelector("#placeholder");
+    let placeholder = $("#placeholder");
     let newPlaceholder = document.createElement("div");
     newPlaceholder.id = "placeholder";
     placeholder.parentNode.replaceChild(newPlaceholder, placeholder);
@@ -205,7 +208,7 @@ const generateDataOverview = (data) => {
 };
 
 const replacePlaceholder = () => {
-    let placeholder = document.querySelector("#placeholder");
+    let placeholder = $("#placeholder");
     let div = document.createElement("div");
     let label = document.createElement("label");
     let input = document.createElement("input");
@@ -223,30 +226,28 @@ const replacePlaceholder = () => {
 };
 
 const setupEventListener = (data) => {
-    document
-        .querySelector("#clear-storage")
-        .addEventListener("click", async (event) => {
-            try {
-                await browser.storage.local.remove("data");
-                getData();
-            } catch (error) {
-                renderingFailed({
-                    type: "storage",
-                    message: error,
-                });
-            }
-        });
+    $("#clear-storage").addEventListener("click", async (event) => {
+        try {
+            await browser.storage.local.remove("data");
+            getData();
+        } catch (error) {
+            renderingFailed({
+                type: "storage",
+                message: error,
+            });
+        }
+    });
 
-    document.querySelector("#copy-json").addEventListener("click", (event) => {
+    $("#copy-json").addEventListener("click", (event) => {
         copy(data === null ? JSON.stringify({}) : JSON.stringify(data));
     });
 
-    const elements = document.querySelectorAll(".copy-value");
+    const elements = $$(".copy-value");
     for (const element of elements) {
         element.addEventListener("click", (event) => {
             const target = event.currentTarget;
             if (event.type === "click") {
-                copy(target.parentNode.querySelector("input").value);
+                copy($("input", target.parentNode).value);
             }
         });
     }

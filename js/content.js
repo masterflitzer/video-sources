@@ -1,6 +1,9 @@
 "use strict";
 
 (async () => {
+    const $ = (selector, parent = document) => parent.querySelector(selector);
+    const $$ = (selector, parent = document) =>
+        parent.querySelectorAll(selector);
     const getJsonData = async (videos) => {
         if (videos.length === 0) throw new Error();
 
@@ -30,7 +33,7 @@
                 results[i].parent[j].value = value;
             }
 
-            let sources = video.querySelectorAll("source");
+            let sources = $$("source", video);
             for (let j = 0; j < sources.length; j++) {
                 const source = sources[j];
                 results[i].childs.push([{}, {}]);
@@ -46,7 +49,7 @@
     };
 
     try {
-        const data = await getJsonData(document.querySelectorAll("video"));
+        const data = await getJsonData($$("video"));
         browser.runtime.sendMessage({ payload: data });
     } catch (error) {
         alert("Couldn't find any video element!");
